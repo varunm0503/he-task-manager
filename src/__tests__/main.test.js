@@ -21,7 +21,7 @@ describe("1. The refresh icon should spin only when the refresh is in progress."
       }, 100)
     });
 
-  test("should not spin initially", async () => {
+  test("Refresh icon should not spin initially", async () => {
     // jest.useFakeTimers();
 
     render(<TaskManager loadTasks={loadTasks}/>);
@@ -35,7 +35,7 @@ describe("1. The refresh icon should spin only when the refresh is in progress."
 
     // jest.useRealTimers()
   });
-  test("should spin when refreshing and stop when done", async () => {
+  test("Refresh icon should spin when refreshing and stop when done", async () => {
     // jest.useFakeTimers();
 
     render(<TaskManager loadTasks={loadTasks}/>);
@@ -86,7 +86,7 @@ describe("2. When data is refreshed in the table, it should be reflected in the 
       }, 100)
     });
 
-  test("test", async () => {
+  test("When data is refreshed in the table, it should be reflected in the card view too", async () => {
     // jest.useFakeTimers();
     render(<TaskManager loadTasks={loadTasks}/>);
 
@@ -132,7 +132,7 @@ describe("3. Editing a task in the card view should also update the task in the 
       }, 100)
     });
 
-  test("test", async () => {
+  test("Editing a task in the card view should also update the task in the table view", async () => {
     render(<TaskManager loadTasks={loadTasks}/>);
 
     const cellEl = await screen.findByText("Task 1");
@@ -182,7 +182,7 @@ describe("4. Clicking on a task in the table should update the task card view", 
       }, 100)
     });
 
-  test("test", async () => {
+  test("Clicking on a task in the table should update the task card view", async () => {
     render(<TaskManager loadTasks={loadTasks}/>);
 
     await user.click(await screen.findByText("Task 1"));
