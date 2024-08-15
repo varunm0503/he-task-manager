@@ -1,6 +1,7 @@
 import "./styles.css";
 import TaskManager from "./TaskManager";
 import data from "./data";
+import React from 'react';
 
 export default function App() {
   let tasks = [...data];
