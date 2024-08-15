@@ -7,7 +7,7 @@ const BUILD_DIR = path.resolve(__dirname, 'build');
 const env = process.env.NODE_ENV || 'development';
 
 module.exports = {
-  entry: ['@babel/polyfill', `${APP_DIR}/index.tsx`],
+  entry: ['@babel/polyfill', `${APP_DIR}/index.js`],
   output: {
     path: BUILD_DIR,
     filename: `bundle.js`,
