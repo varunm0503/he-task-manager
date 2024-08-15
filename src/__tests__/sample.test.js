@@ -1,5 +1,5 @@
 import {render, screen, waitFor} from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import user from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import TaskManager from "../TaskManager";
 
@@ -37,8 +37,6 @@ describe("1. The refresh icon should spin only when the refresh is in progress."
   });
   test("should spin when refreshing and stop when done", async () => {
     // jest.useFakeTimers();
-
-    const user = userEvent.setup();
 
     render(<TaskManager loadTasks={loadTasks}/>);
 
@@ -90,8 +88,6 @@ describe("2. When data is refreshed in the table, it should be reflected in the 
 
   test("test", async () => {
     // jest.useFakeTimers();
-    const user = userEvent.setup();
-
     render(<TaskManager loadTasks={loadTasks}/>);
 
     const cellEl = await screen.findByText("Task 1");
@@ -137,8 +133,6 @@ describe("3. Editing a task in the card view should also update the task in the 
     });
 
   test("test", async () => {
-    const user = userEvent.setup();
-
     render(<TaskManager loadTasks={loadTasks}/>);
 
     const cellEl = await screen.findByText("Task 1");
@@ -189,8 +183,6 @@ describe("4. Clicking on a task in the table should update the task card view", 
     });
 
   test("test", async () => {
-    const user = userEvent.setup();
-
     render(<TaskManager loadTasks={loadTasks}/>);
 
     await user.click(await screen.findByText("Task 1"));
