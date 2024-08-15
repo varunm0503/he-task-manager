@@ -3,7 +3,7 @@ import user from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import TaskManager from "../TaskManager";
 
-describe("1. The refresh icon should spin only when the refresh is in progress.", () => {
+describe("1.", () => {
   let tasks = [
     {
       id: 1,
@@ -61,7 +61,7 @@ describe("1. The refresh icon should spin only when the refresh is in progress."
   });
 });
 
-describe("2. When data is refreshed in the table, it should be reflected in the card view too.", () => {
+describe("2.", () => {
   let tasks = [
     {
       id: 1,
@@ -114,7 +114,7 @@ describe("2. When data is refreshed in the table, it should be reflected in the 
   });
 });
 
-describe("3. Editing a task in the card view should also update the task in the table view.", () => {
+describe("3.", () => {
   let tasks = [
     {
       id: 1,
@@ -157,7 +157,7 @@ describe("3. Editing a task in the card view should also update the task in the 
   });
 });
 
-describe("4. Clicking on a task in the table should update the task card view", () => {
+describe("4.", () => {
   let tasks = [
     {
       id: 1,
