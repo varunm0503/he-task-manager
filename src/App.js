@@ -4,7 +4,7 @@ import data from "./data";
 import React from 'react';
 
 export default function App() {
-  let tasks = [...data];
+  let tasks = [...data].slice(0, 10);
 
   const loadTasks = () => {
     return new Promise((resolve, reject) => {
