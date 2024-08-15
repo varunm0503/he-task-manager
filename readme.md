@@ -8,5 +8,5 @@ While waiting for npm install to go through, jump into the code from the entry f
 4. When a card view for the first task is open, clicking on the second task in the table view should update the card view to show the second task. Currently, it still shows the first task. Fix this issue.
 
 ## Recommendations
-1. Click on Run Tests to test your solution. Click on Execution Log to better understand the test execution.
-2. Feel free to look into sample.test.js to understand what is being tested.
+1. Click on "Run code" to test your solution. Click on Execution Log to better understand the test execution.
+2. Feel free to look into sample.test.js to understand what is being executed when "Run code" is clicked.
