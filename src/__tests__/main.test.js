@@ -21,7 +21,7 @@ describe("1.", () => {
       }, 100)
     });
 
-  test("Refresh icon should not spin initially", async () => {
+  test("1.", async () => {
     // jest.useFakeTimers();
 
     render(<TaskManager loadTasks={loadTasks}/>);
@@ -35,7 +35,7 @@ describe("1.", () => {
 
     // jest.useRealTimers()
   });
-  test("Refresh icon should spin when refreshing and stop when done", async () => {
+  test("2.", async () => {
     // jest.useFakeTimers();
 
     render(<TaskManager loadTasks={loadTasks}/>);
@@ -70,6 +70,13 @@ describe("2.", () => {
       assignee: "Alice",
       dueDate: "2024-08-20",
     },
+    {
+      id: 2,
+      title: "Task 2",
+      status: "Pending",
+      assignee: "Bob",
+      dueDate: "2024-08-22",
+    },
   ];
 
   const loadTasks = () =>
@@ -86,7 +93,7 @@ describe("2.", () => {
       }, 100)
     });
 
-  test("When data is refreshed in the table, it should be reflected in the card view too", async () => {
+  test("3.", async () => {
     // jest.useFakeTimers();
     render(<TaskManager loadTasks={loadTasks}/>);
 
@@ -111,6 +118,11 @@ describe("2.", () => {
     }, {timeout: 200});
 
     expect(taskCardStatusSelectEl.dataset.value).toBe("Pending");
+
+    await user.click(await screen.findByText("Task 2"));
+
+    // the value in the task card
+    expect(screen.getByLabelText('Title').value).toBe("Task 2"); 
   });
 });
 
@@ -132,7 +144,7 @@ describe("3.", () => {
       }, 100)
     });
 
-  test("Editing a task in the card view should also update the task in the table view", async () => {
+  test("4.", async () => {
     render(<TaskManager loadTasks={loadTasks}/>);
 
     const cellEl = await screen.findByText("Task 1");
@@ -156,46 +168,3 @@ describe("3.", () => {
     expect(taskRowEl.querySelector('[data-cell-type="title"]').textContent).toBe("hello world");
   });
 });
-
-describe("4.", () => {
-  let tasks = [
-    {
-      id: 1,
-      title: "Task 1",
-      status: "In Progress",
-      assignee: "Alice",
-      dueDate: "2024-08-20",
-    },
-    {
-      id: 2,
-      title: "Task 2",
-      status: "Pending",
-      assignee: "Bob",
-      dueDate: "2024-08-22",
-    },
-  ];
-
-  const loadTasks = () =>
-    new Promise((res) => {
-      setTimeout(() => {
-        res(tasks);
-      }, 100)
-    });
-
-  test("Clicking on a task in the table should update the task card view", async () => {
-    render(<TaskManager loadTasks={loadTasks}/>);
-
-    await user.click(await screen.findByText("Task 1"));
-
-    await screen.findByTestId("task-card");
-
-    // the value in the task card
-    expect(screen.getByLabelText('Title').value).toBe("Task 1");
-
-    await user.click(await screen.findByText("Task 2"));
-
-    // the value in the task card
-    expect(screen.getByLabelText('Title').value).toBe("Task 2");
-  });
-});
-

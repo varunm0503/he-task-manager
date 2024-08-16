@@ -16,7 +16,7 @@
     "build": "webpack --mode production",
     "test": "jest --testTimeout=10000 --verbose --ci --testResultsProcessor=\"jest-junit\"",
     "sample_tests": "jest --testTimeout=10000 --verbose --ci --testResultsProcessor=\"jest-junit\" -- src/__tests__/sample.test.js",
-    "main_tests": "jest --testTimeout=10000 --verbose --ci --testResultsProcessor=\"jest-junit\" -- src/__tests__/"
+    "main_tests": "jest --testTimeout=10000 --verbose --ci --testResultsProcessor=\"jest-junit\" -- src/__tests__/main.test.js"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
