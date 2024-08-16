@@ -213,24 +213,12 @@ describe("5.", () => {
       dueDate: "2024-08-20",
     };
 
-    /*
-  const mockFunction = jest.fn();
-  jest.unmock('../CloseButton'); // Unmock the module
-  jest.mock('../CloseButton', () => require('../__mocks__/CloseButton')(mockFunction));
-*/
-
     global.renderCountArgs = [];
 
     const {rerender} = render(<TaskCard task={task} statuses={[]} users={[]}/>);
 
     task = {...task};
     rerender(<TaskCard task={task} statuses={[]} users={[]}/>);
-    /*
-        expect(mockFunction.mock.calls).toEqual([
-          [1],
-          [2],
-        ]);
-    */
     expect(global.renderCountArgs).toEqual([
       [1],
       [2],

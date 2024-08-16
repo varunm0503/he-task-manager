@@ -99,7 +99,7 @@ describe("2.", () => {
 
   test("3.", async () => {
     // jest.useFakeTimers();
-    render(<TaskManager loadTasks={loadTasks}/>);
+    const { rerender } = render(<TaskManager loadTasks={loadTasks}/>);
 
     const cellEl = await screen.findByText("Task 1");
 
@@ -126,7 +126,27 @@ describe("2.", () => {
     await user.click(await screen.findByText("Task 2"));
 
     // the value in the task card
-    expect(screen.getByLabelText('Title').value).toBe("Task 2"); 
+    expect(screen.getByLabelText('Title').value).toBe("Task 2");
+
+    let task = {
+      id: 1,
+      title: "Task 1",
+      status: "In Progress",
+      assignee: "Alice",
+      dueDate: "2024-08-20",
+    };
+
+    global.renderCountArgs = [];
+
+    rerender(<TaskCard task={task} statuses={[]} users={[]}/>);
+
+    task = {...task};
+    rerender(<TaskCard task={task} statuses={[]} users={[]}/>);
+    
+    expect(global.renderCountArgs).toEqual([
+      [1],
+      [2],
+    ]);
   });
 });
 
@@ -172,38 +192,3 @@ describe("3.", () => {
     expect(taskRowEl.querySelector('[data-cell-type="title"]').textContent).toBe("hello world");
   });
 });
-
-describe("4.", () => {
-  test("5.", async () => {
-    let task = {
-      id: 1,
-      title: "Task 1",
-      status: "In Progress",
-      assignee: "Alice",
-      dueDate: "2024-08-20",
-    };
-
-    /*
-  const mockFunction = jest.fn();
-  jest.unmock('../CloseButton'); // Unmock the module
-  jest.mock('../CloseButton', () => require('../__mocks__/CloseButton')(mockFunction));
-*/
-
-    global.renderCountArgs = [];
-
-    const {rerender} = render(<TaskCard task={task} statuses={[]} users={[]}/>);
-
-    task = {...task};
-    rerender(<TaskCard task={task} statuses={[]} users={[]}/>);
-    /*
-        expect(mockFunction.mock.calls).toEqual([
-          [1],
-          [2],
-        ]);
-    */
-    expect(global.renderCountArgs).toEqual([
-      [1],
-      [2],
-    ]);
-  });
-})
