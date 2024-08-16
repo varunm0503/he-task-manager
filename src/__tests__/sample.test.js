@@ -2,6 +2,10 @@ import {render, screen, waitFor} from "@testing-library/react";
 import user from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import TaskManager from "../TaskManager";
+import TaskCard from "../TaskCard";
+
+jest.mock('../CloseButton', () => require('../__mocks__/CloseButton')(jest.fn()));
+global.renderCountArgs = [];
 
 describe("1.", () => {
   let tasks = [
@@ -198,4 +202,39 @@ describe("4.", () => {
     expect(screen.getByLabelText('Title').value).toBe("Task 2");
   });
 });
+
+describe("5. Check for unnecessary renders of TaskCard", () => {
+  test("test", async () => {
+    let task = {
+      id: 1,
+      title: "Task 1",
+      status: "In Progress",
+      assignee: "Alice",
+      dueDate: "2024-08-20",
+    };
+
+    /*
+  const mockFunction = jest.fn();
+  jest.unmock('../CloseButton'); // Unmock the module
+  jest.mock('../CloseButton', () => require('../__mocks__/CloseButton')(mockFunction));
+*/
+
+    global.renderCountArgs = [];
+
+    const {rerender} = render(<TaskCard task={task} statuses={[]} users={[]}/>);
+
+    task = {...task};
+    rerender(<TaskCard task={task} statuses={[]} users={[]}/>);
+    /*
+        expect(mockFunction.mock.calls).toEqual([
+          [1],
+          [2],
+        ]);
+    */
+    expect(global.renderCountArgs).toEqual([
+      [1],
+      [2],
+    ]);
+  });
+})
 
