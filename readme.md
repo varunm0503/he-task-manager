@@ -1,6 +1,4 @@
 ## Getting Started
-While waiting for npm install to go through, jump into the code from the entry file, i.e. index.js. Once the preview is loaded, open it in a new window.
-
 You are given a table view. *3 minor bugs require* your attention.
 
 ## Bugs
