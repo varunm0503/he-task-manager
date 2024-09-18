@@ -1,194 +1,310 @@
 import {render, screen, waitFor} from "@testing-library/react";
-import user from "@testing-library/user-event";
+import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import TaskManager from "../TaskManager";
-import TaskCard from "../TaskCard";
+import { UserProfile } from "../UserProfile";
 
-jest.mock('../CloseButton', () => require('../__mocks__/CloseButton')(jest.fn()));
-global.renderCountArgs = [];
+jest.mock('../logger', () => ({
+  logger: {
+    log: jest.fn(),
+  }
+}));
+const { logger } = require('../logger');
 
-describe("1.", () => {
-  let tasks = [
-    {
-      id: 1,
-      title: "Task 1",
-      status: "In Progress",
-      assignee: "Alice",
-      dueDate: "2024-08-20",
-    },
-  ];
 
-  const loadTasks = () =>
-    new Promise((res) => {
-      setTimeout(() => {
-        res(tasks);
-      }, 100)
-    });
+describe("Test #1", () => {
+  beforeEach(() => jest.clearAllMocks());
 
-  test("1.", async () => {
-    // jest.useFakeTimers();
+  test("should log changed props", async () => {
 
-    render(<TaskManager loadTasks={loadTasks}/>);
-
-    // jest.runAllTimers();
-
-    await screen.findByText("Task 1");
-
-    const iconEl = screen.getByTestId("refresh-icon");
-    expect(iconEl.classList.contains("animate-spin")).toBe(false);
-
-    // jest.useRealTimers()
-  });
-  test("2.", async () => {
-    // jest.useFakeTimers();
-
-    render(<TaskManager loadTasks={loadTasks}/>);
-
-    // jest.runAllTimers();
-
-    await screen.findByText("Task 1");
-
-    const el = screen.getByTestId("refresh-button");
-
-    await user.click(el);
-
-    const iconEl = screen.getByTestId("refresh-icon");
-    expect(iconEl.classList.contains("animate-spin")).toBe(true);
-
-    // jest.runAllTimers();
-
-    await waitFor(() => {
-      expect(iconEl.classList.contains("animate-spin")).toBe(false);
-    }, {timeout: 200})
-
-    // jest.useRealTimers()
-  });
-});
-
-describe("2.", () => {
-  let tasks = [
-    {
-      id: 1,
-      title: "Task 1",
-      status: "In Progress",
-      assignee: "Alice",
-      dueDate: "2024-08-20",
-    },
-    {
-      id: 2,
-      title: "Task 2",
-      status: "Pending",
-      assignee: "Bob",
-      dueDate: "2024-08-22",
-    },
-  ];
-
-  const loadTasks = () =>
-    new Promise((res) => {
-      setTimeout(() => {
-        res(tasks);
-        tasks = [
-          {
-            ...tasks[0],
-            status: tasks[0].status === "In Progress" ? "Pending" : "In Progress",
-          },
-          ...tasks.slice(1),
-        ];
-      }, 100)
-    });
-
-  test("3.", async () => {
-    // jest.useFakeTimers();
-    const { rerender } = render(<TaskManager loadTasks={loadTasks}/>);
-
-    const cellEl = await screen.findByText("Task 1");
-
-    let taskRowEl = screen.getByTestId(`task-row-${tasks[0].id}`);
-    let taskRowStatusCellEl = taskRowEl.querySelector('[data-cell-type="status"]');
-
-    expect(taskRowStatusCellEl.textContent).toBe("In Progress");
-
-    await user.click(cellEl);
-
-    let taskCardEl = screen.getByTestId("task-card");
-    let taskCardStatusSelectEl = taskCardEl.querySelector("#status");
-    expect(taskCardStatusSelectEl.dataset.value).toBe("In Progress");
-
-    const refreshButtonEl = screen.getByTestId("refresh-button");
-    await user.click(refreshButtonEl);
-
-    await waitFor(() => {
-      expect(taskRowStatusCellEl.textContent).toBe("Pending");
-    }, {timeout: 200});
-
-    expect(taskCardStatusSelectEl.dataset.value).toBe("Pending");
-
-    await user.click(await screen.findByText("Task 2"));
-
-    // the value in the task card
-    expect(screen.getByLabelText('Title').value).toBe("Task 2");
-
-    let task = {
-      id: 1,
-      title: "Task 1",
-      status: "In Progress",
-      assignee: "Alice",
-      dueDate: "2024-08-20",
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
     };
 
-    global.renderCountArgs = [];
+    const newUser = {
+      firstName: "Ashley",
+      lastName: "Terry",
+      address: {
+        street: "77340 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-768291293",
+    };
 
-    rerender(<TaskCard task={task} statuses={[]} users={[]}/>);
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
 
-    task = {...task};
-    rerender(<TaskCard task={task} statuses={[]} users={[]}/>);
-    
-    expect(global.renderCountArgs).toEqual([
-      [1],
-      [2],
-    ]);
+    rerender(<UserProfile user={newUser} encryptPhoneNumber/>);
+
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['user', newUser, user]);
+
   });
+  
 });
 
-describe("3.", () => {
-  let tasks = [
-    {
-      id: 1,
-      title: "Task 1",
-      status: "In Progress",
-      assignee: "Alice",
-      dueDate: "2024-08-20",
-    },
-  ];
+describe("Test #2", () => {
+  beforeEach(() => jest.clearAllMocks());
 
-  const loadTasks = () =>
-    new Promise((res) => {
-      setTimeout(() => {
-        res(tasks);
-      }, 100)
-    });
+  test("should log changed state", async () => {
 
-  test("4.", async () => {
-    render(<TaskManager loadTasks={loadTasks}/>);
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
+    };
 
-    const cellEl = await screen.findByText("Task 1");
-    await user.click(cellEl);
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
 
-    await screen.findByTestId("task-card");
+    userEvent.click(screen.getByTestId('toggle-checkbox'));
 
-    // In the task card, replace existing content with "hello world"
-    const inputEl = screen.getByLabelText('Title');
-    inputEl.setSelectionRange(0, inputEl.value.length);
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['showDetails', true, false]);
 
-    await user.type(inputEl, "hello world");
-    await user.tab();
+  });
+  
+});
 
-    // In the task card, the updated value should be "hello world"
-    expect(screen.getByLabelText('Title').value).toBe("hello world");
+describe("Test #3, () => {
+  beforeEach(() => jest.clearAllMocks());
 
-    const taskRowEl = await screen.findByTestId(`task-row-${tasks[0].id}`);
 
-    // In the table, the value should be "hello world"
-    expect(taskRowEl.querySelector('[data-cell-type="title"]').textContent).toBe("hello world");
+  test("should when prop which was previously present but now removed", async () => {
+
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
+    };
+
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
+
+    rerender(<UserProfile user={user} />);
+
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['encryptPhoneNumber', undefined, true]);
+
+  });
+  
+});
+
+describe("Test #4", () => {
+  beforeEach(() => jest.clearAllMocks());
+
+  test("should not log for a prop which mutated and changed", async () => {
+
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
+    };
+
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
+
+    userEvent.click(screen.getByTestId('toggle-checkbox'));
+
+    user.address = {
+      street: "77300 Cape Street",
+      suburb: "South Marylee",
+      city: "New York",
+      postCode: "10002",
+    };
+
+    rerender(<UserProfile user={user} encryptPhoneNumber />);
+
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['showDetails', true, false]);
+
+  });
+  
+});
+
+describe("Test #5", () => {
+  beforeEach(() => jest.clearAllMocks());
+
+  test("Test #1 should log changed props", async () => {
+
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
+    };
+
+    const newUser = {
+      firstName: "Ashley",
+      lastName: "Terry",
+      address: {
+        street: "77340 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-768291293",
+    };
+
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
+
+    rerender(<UserProfile user={newUser} encryptPhoneNumber/>);
+
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['user', newUser, user]);
+
+  });
+
+  test("Test #2 should log changed state", async () => {
+
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
+    };
+
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
+
+    userEvent.click(screen.getByTestId('toggle-checkbox'));
+
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['showDetails', true, false]);
+
+  });
+
+  test("Test #3 should when prop which was previously present but now removed", async () => {
+
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
+    };
+
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
+
+    rerender(<UserProfile user={user} />);
+
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['encryptPhoneNumber', undefined, true]);
+
+  });
+
+  test("Test #4 should not log for a prop which mutated and changed", async () => {
+
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
+    };
+
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
+
+    userEvent.click(screen.getByTestId('toggle-checkbox'));
+
+    user.address = {
+      street: "77300 Cape Street",
+      suburb: "South Marylee",
+      city: "New York",
+      postCode: "10002",
+    };
+
+    rerender(<UserProfile user={user} encryptPhoneNumber />);
+
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['showDetails', true, false]);
+
+  });
+
+  test("Test #5 should log prop which is unused in the component but passed", async () => {
+
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
+    };
+
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber />);
+
+    rerender(<UserProfile user={user} encryptPhoneNumber encryptAddress />);
+
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['encryptAddress', true, undefined]);
+
+  });
+  beforeEach(() => jest.clearAllMocks());
+
+  test("should log prop which is unused in the component but passed", async () => {
+
+    const user = {
+      firstName: "John",
+      lastName: "Stacker",
+      address: {
+        street: "77339 Konopelski Crossing",
+        suburb: "North Marylee",
+        city: "New York",
+        postCode: "10002",
+      },
+      phoneNumber: "01-767291s93",
+    };
+
+    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber />);
+
+    rerender(<UserProfile user={user} encryptPhoneNumber encryptAddress />);
+
+    expect(logger.log.mock.calls.length).toBe(1);
+    expect(logger.log.mock.calls[0]).toEqual(['encryptAddress', true, undefined]);
+
   });
 });
