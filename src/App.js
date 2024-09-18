@@ -1,30 +1,24 @@
 import "./styles.css";
-import TaskManager from "./TaskManager";
-import data from "./data";
+import { UserProfile } from "./UserProfile";
 import React from 'react';
 
+const user = {
+  firstName: "John",
+  lastName: "Stacker",
+  address: {
+    street: "77339 Konopelski Crossing",
+    suburb: "North Marylee",
+    city: "New York",
+    postCode: "10002",
+  },
+  phoneNumber: "01-76729193",
+};
+
+//do not change anything in App Component. 
 export default function App() {
-  let tasks = [...data].slice(0, 10);
-
-  const loadTasks = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(tasks);
-        tasks = [
-          {
-            ...tasks[0],
-            status:
-              tasks[0].status === "In Progress" ? "Pending" : "In Progress",
-          },
-          ...tasks.slice(1),
-        ];
-      }, 2000);
-    });
-  };
-
   return (
     <div className="App">
-      <TaskManager loadTasks={loadTasks} />
+      <UserProfile user={user} encryptPhoneNumber={true}/>
     </div>
   );
 }

@@ -3,3 +3,30 @@
   padding-left: 10px;
   padding-bottom: 10px;
 }
+
+.userProfile {
+  border: 1px rgb(228, 99, 99) solid;
+  padding: 5px;
+  border-radius: 4px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.userProfile__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.userProfile__name {
+  display: flex;
+}
+
+.userProfile__showdetails {
+  margin-right: 4px;
+}
+
+.userProfile__firstName {
+  margin-right: 2px;
+}
