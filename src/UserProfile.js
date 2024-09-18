@@ -13,7 +13,7 @@ export const UserProfile = memo((props) => {
     setShowDetails((prevState) => !prevState);
   }, [setShowDetails]);
 
-  useWhyDidComponentReRender({ state: { showDetails }, props });
+  useWhyDidComponentReRender();
 
   return (
     <div className="userProfile">

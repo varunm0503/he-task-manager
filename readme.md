@@ -1,10 +1,10 @@
-## Getting Started
-You are given a table view. *3 minor bugs require* your attention.
-
-## Bugs
-1. The refresh icon should spin only when the refresh is in progress.
-2. Click on the first task to open a card view. Then, click on refresh. You will notice that the data in the first row of the table updates, but it does not update in the card view. Also, when a card view for the first task is open, clicking on the second task in the table view should update the card view to show the second task. Currently, it still shows the first task. Fix these issues.
-3. Editing a task in the card view should also update the task in the table view.
+## Problem Statement
+You are given a user profile component. You need to write a hook "useWhyDidComponentReRender" to log all keys which caused component to re-render.
+## Details
+1. The UserProfile component renders a user card with a state to toggle between show details and hide details mode
+2. You need to complete the hook "useWhyDidComponentReRender" to log all keys which caused component to re-render.
+3. The hook import a logger which you can use as "logger.log(key, newValue, oldValue);" to log all keys along with new value and old values which caused component to re-render 
+3. You do not need to make any change 
 
 ## Submission Instructions
 1. Clicking "Run code" will compile and run your code against sample tests, but it will not generate scores. Click on "Execution Log" to better understand the test execution.

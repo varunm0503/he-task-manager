@@ -30,13 +30,6 @@ const reportDiff = (newValues, oldValues) => {
 // Use "logger.log(key, newValue, oldValue);" 
 // to log all keys along with new value and old values 
 // which caused component to re-render
-export const useWhyDidComponentReRender = ({ state, props }) => {
-  const stateRef = useRef(state);
-  const propsRef = useRef(props);
+export const useWhyDidComponentReRender = () => {
 
-  reportDiff(state, stateRef.current);
-  reportDiff(props, propsRef.current);
-
-  stateRef.current = state;
-  propsRef.current = props;
 };
