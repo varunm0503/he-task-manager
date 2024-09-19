@@ -1,28 +1,4 @@
-import { useRef } from "react";
 import { logger } from "./logger";
-
-const reportDiff = (newValues, oldValues) => {
-  const newValuesKeys = Object.keys(newValues);
-  const oldValuesKeys = Object.keys(oldValues);
-
-  const alreadyIncludedKeys = [];
-
-  newValuesKeys.forEach((newStateKey) => {
-    if (newValues[newStateKey] !== oldValues[newStateKey]) {
-      logger.log(newStateKey, newValues[newStateKey], oldValues[newStateKey]);
-      alreadyIncludedKeys.push(newStateKey);
-    }
-  });
-
-  oldValuesKeys.forEach((oldStateKey) => {
-    if (
-      !alreadyIncludedKeys.includes(oldStateKey) &&
-      newValues[oldStateKey] !== oldValues[oldStateKey]
-    ) {
-      logger.log(oldStateKey, newValues[oldStateKey], oldValues[oldStateKey]);
-    }
-  });
-};
 
 // All changes are needed to be made in this hook. 
 // Argument structure can be changed. 

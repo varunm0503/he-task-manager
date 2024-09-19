@@ -4,7 +4,7 @@ You are given a user profile component. You need to write a hook "useWhyDidCompo
 1. The UserProfile component renders a user card with a state to toggle between show details and hide details mode
 2. You need to complete the hook "useWhyDidComponentReRender" to log all keys which caused component to re-render.
 3. The hook import a logger which you can use as "logger.log(key, newValue, oldValue);" to log all keys along with new value and old values which caused component to re-render 
-3. You do not need to make any change 
+3. You do not need to make any change to rendering of User Profile component but you can pass any arguments to useWhyDidComponentReRender
 
 ## Submission Instructions
 1. Clicking "Run code" will compile and run your code against sample tests, but it will not generate scores. Click on "Execution Log" to better understand the test execution.
