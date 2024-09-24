@@ -7,9 +7,9 @@ import { Standings } from './components/Standings';
 // This is just to understand the component and wo
 // You can pass any arguments to use useWhyDidComponentReRender whichever you feel are necessary
 export const PointsTally = memo((props) => {
-  const { teams, matchResults, fixtures, pointsSystem } = props;
+  const { teams, matchResults = [], fixtures = [], pointsSystem } = props;
 
-  const [predictionsState, setPredictionsState] = useState();
+  const [predictionsState, setPredictionsState] = useState({});
 
   const onPredict = useCallback(({ fixtureId, value }) => {
     setPredictionsState((prevState) => ({
@@ -20,7 +20,16 @@ export const PointsTally = memo((props) => {
 
 
   const answer = useMemo(() => {
-    return matchResults.reduce((acc, match) => {
+    const predictionResults = fixtures.reduce((acc, fixture) => {
+      if (predictionsState[fixture.id]) {
+        acc.push({
+          ...fixture,
+          result: predictionsState[fixture.id],
+        });
+      } 
+      return acc;
+    }, []);
+    return [...matchResults, ...predictionResults].reduce((acc, match) => {
       let team1points;
       let team2points;
       if (match.result === 'team1') {
@@ -46,7 +55,7 @@ export const PointsTally = memo((props) => {
 
       return acc;
     }, {});
-  }, [teams, pointsSystem, matchResults]);
+  }, [teams, pointsSystem, matchResults, predictionsState, fixtures]);
 
   return (
     <div className="pointsTally">
