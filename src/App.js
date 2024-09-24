@@ -1,10 +1,10 @@
 import "./styles.css";
 import { PointsTally } from "./PointsTally";
 
-import { TEAMS } from './__mocks__/teams';
-import { MATCH_RESULTS } from './__mocks__/matchResults';
-import { FIXTURES } from "./__mocks__/fixtures";
-import { POINTS_SYSTEM } from './__mocks__/pointsSystem';
+import { TEAMS } from './data/teams';
+import { MATCH_RESULTS } from './data/matchResults';
+import { FIXTURES } from "./data/fixtures";
+import { POINTS_SYSTEM } from './data/pointsSystem';
 
 import React from 'react';
 
