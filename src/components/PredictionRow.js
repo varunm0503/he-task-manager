@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-export const PredictionRow = ({ fixture, onPredict }) => {
+export const PredictionRow = ({ fixture, onPredict, value: currentValue }) => {
     const fixtureId = fixture.id;
 
     const onSelectTeam1 = useCallback((value) => {
@@ -16,11 +16,11 @@ export const PredictionRow = ({ fixture, onPredict }) => {
     }, [fixtureId]);
 
     return (
-        <tr>
-          <td> <input type="radio" onChange={onSelectTeam1}/> <label>{fixture.team1} </label></td>
-          <td> <input type="radio" onChange={onSelectTeam2}/> <label>{fixture.team2} </label> </td>
-          <td> <select onChange={onSelect}>
-          <option value="team1">-</option>
+        <tr data-testid={`fixture-${fixtureId}`}>
+          <td> <input data-testid={`fixture-${fixtureId}-team1`} type="radio" onChange={onSelectTeam1} checked={currentValue === 'team1'}/> <label>{fixture.team1} </label></td>
+          <td> <input data-testid={`fixture-${fixtureId}-team2`} type="radio" onChange={onSelectTeam2} checked={currentValue === 'team2'}/> <label>{fixture.team2} </label> </td>
+          <td> <select data-testid={`fixture-${fixtureId}-select`} onChange={onSelect} value={currentValue ?? '-'}>
+          <option value="-">-</option>
           <option value="team1">{fixture.team1}</option>
           <option value="team2">{fixture.team2}</option>
           <option value="draw">Draw</option>

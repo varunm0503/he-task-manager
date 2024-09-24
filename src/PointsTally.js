@@ -14,7 +14,7 @@ export const PointsTally = memo((props) => {
   const onPredict = useCallback(({ fixtureId, value }) => {
     setPredictionsState((prevState) => ({
       ...prevState,
-      fixtureId: value,
+      [fixtureId]: value,
     }))
   }, [setPredictionsState]);
 
@@ -51,7 +51,7 @@ export const PointsTally = memo((props) => {
   return (
     <div className="userProfile">
      <Standings teams={teams} calculatedPoints={answer} />
-    <Predictions fixtures={fixtures} />
+    <Predictions fixtures={fixtures} predictionsState={predictionsState} onPredict={onPredict} />
   
   </div>
   );

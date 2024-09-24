@@ -1,6 +1,6 @@
 import { PredictionRow } from './PredictionRow';
 
-export const Predictions = ({ fixtures, onPredict }) => {
+export const Predictions = ({ fixtures, onPredict, predictionsState }) => {
     return (
         <table className="fixtures">
         <caption>Predictions</caption>
@@ -14,7 +14,7 @@ export const Predictions = ({ fixtures, onPredict }) => {
   <tbody>
       {fixtures.map((fixture, index) => {
         return (
-            <PredictionRow key={index} fixture={fixture} onPredict={onPredict} />
+            <PredictionRow key={index} fixture={fixture} onPredict={onPredict} value={predictionsState?.[fixture.id]} />
         )
       })}
     </tbody>
