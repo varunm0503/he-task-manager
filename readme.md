@@ -1,10 +1,20 @@
 ## Problem Statement
-You are given a user profile component. You need to write a hook "useWhyDidComponentReRender" to log all keys which caused component to re-render.
-## Details
-1. The UserProfile component renders a user card with a state to toggle between show details and hide details mode
-2. You need to complete the hook "useWhyDidComponentReRender" to log all keys which caused component to re-render.
-3. The hook import a logger which you can use as "logger.log(key, newValue, oldValue);" to log all keys along with new value and old values which caused component to re-render 
-3. You do not need to make any change to rendering of User Profile component but you can pass any arguments to useWhyDidComponentReRender
+This component renders Standings and Predictions Table
+You are given props. Refer to ./__mocks__/ directory for structure 
+1. teams: This prop gives an array of all teams
+2. matchResults: This prop gives an array of all matches played till now
+    and result in those matches.
+3. fixtures: This prop gives an array of all matches/fixtures
+    which have not yet been played
+4. points system: This prop defines points earned for a win/loss/draw
+
+
+Task 1. You need to fix matches played and points scored by each team
+Task 2. You need to predict result of each fixture and update points system based on it
+Task 2.1: You can update prediction using radio button
+Task 2.2: You can also update predction using select box with an option of draw
+Task 3: You also need to ensure that changing result from either radio button or select 
+        should reflect changes in the other component as well 
 
 ## Submission Instructions
 1. Clicking "Run code" will compile and run your code against sample tests, but it will not generate scores. Click on "Execution Log" to better understand the test execution.

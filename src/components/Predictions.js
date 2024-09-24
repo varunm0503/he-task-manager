@@ -1,5 +1,7 @@
 import { PredictionRow } from './PredictionRow';
 
+// This component is used to show predictions
+// You can add necessary props to this component
 export const Predictions = ({ fixtures, onPredict, predictionsState }) => {
     return (
         <table className="fixtures">

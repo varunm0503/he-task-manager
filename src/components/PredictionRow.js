@@ -1,5 +1,8 @@
 import { useCallback } from "react";
 
+// This component is used to render a prodection row for each fixture
+// Do not make changes to data-test-id as that can affect your test results
+// You can add necessary props to this component to make it functional
 export const PredictionRow = ({ fixture, onPredict, value: currentValue }) => {
     const fixtureId = fixture.id;
 

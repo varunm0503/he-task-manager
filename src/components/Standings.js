@@ -1,6 +1,8 @@
 import React from 'react';
 import { TeamRow } from './TeamRow';
 
+// This component shows points scored by each team
+// You can add necessary props to this component
 export const Standings = ({ teams, calculatedPoints }) => {
     return (
         <table>
