@@ -3,7 +3,7 @@ import { TeamRow } from './TeamRow';
 
 // This component shows points scored by each team
 // You can add necessary props to this component
-export const Standings = ({ teams, calculatedPoints }) => {
+export const Standings = ({ teams }) => {
     return (
         <table>
         <caption>
@@ -22,8 +22,8 @@ export const Standings = ({ teams, calculatedPoints }) => {
           <TeamRow
             key={team}
             team={team}
-            matchesPlayed={calculatedPoints[team].matchesPlayed}
-            points={calculatedPoints[team].points}
+            matchesPlayed={0}
+            points={0}
             />
          );
        })}
