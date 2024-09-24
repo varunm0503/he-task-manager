@@ -49,7 +49,7 @@ export const PointsTally = memo((props) => {
   }, [teams, pointsSystem, matchResults]);
 
   return (
-    <div className="userProfile">
+    <div className="pointsTally">
      <Standings teams={teams} calculatedPoints={answer} />
     <Predictions fixtures={fixtures} predictionsState={predictionsState} onPredict={onPredict} />
   
