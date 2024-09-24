@@ -30,3 +30,11 @@
 .userProfile__firstName {
   margin-right: 2px;
 }
+
+.predictions {
+  width: 100%;
+}
+
+.fixtures {
+  width: 100%;
+}

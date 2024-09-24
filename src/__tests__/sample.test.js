@@ -1,173 +1,56 @@
 import {render, screen, waitFor} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { UserProfile } from "../UserProfile";
+import { PointsTally } from "../PointsTally";
+
+import { TEAMS } from '../__mocks__/teams';
+import { MATCH_RESULTS } from '../__mocks__/matchResults';
+import { FIXTURES } from "../__mocks__/fixtures";
+import { POINTS_SYSTEM } from '../__mocks__/pointsSystem';
 
 jest.mock('../logger', () => ({
   logger: {
     log: jest.fn(),
   }
 }));
-const { logger } = require('../logger');
 
 
 describe("Test #1", () => {
   beforeEach(() => jest.clearAllMocks());
 
-  test("should log changed props", async () => {
+  test("should correct matches played and points for each team", async () => {
 
-    const user = {
-      firstName: "John",
-      lastName: "Stacker",
-      address: {
-        street: "77339 Konopelski Crossing",
-        suburb: "North Marylee",
-        city: "New York",
-        postCode: "10002",
-      },
-      phoneNumber: "01-767291s93",
-    };
+    render(<PointsTally teams={TEAMS} matchResults={MATCH_RESULTS} fixtures={FIXTURES} pointsSystem={POINTS_SYSTEM} />);
 
-    const newUser = {
-      firstName: "Ashley",
-      lastName: "Terry",
-      address: {
-        street: "77340 Konopelski Crossing",
-        suburb: "North Marylee",
-        city: "New York",
-        postCode: "10002",
-      },
-      phoneNumber: "01-768291293",
-    };
+    const alphaPointsElement = screen.getByTestId('points-Alpha');
+    expect(alphaPointsElement.innerHTML).toBe('7');
+    const alphaMatchesElement = screen.getByTestId('matches-played-Alpha');
+    expect(alphaMatchesElement.innerHTML).toBe('3');
 
-    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
+    const bravoPointsElement = screen.getByTestId('points-Bravo');
+    expect(bravoPointsElement.innerHTML).toBe('4');
+    const bravoMatchesElement = screen.getByTestId('matches-played-Bravo');
+    expect(bravoMatchesElement.innerHTML).toBe('3');
 
-    rerender(<UserProfile user={newUser} encryptPhoneNumber/>);
+    const charliePointsElement = screen.getByTestId('points-Charlie');
+    expect(charliePointsElement.innerHTML).toBe('5');
+    const charlieMatchesElement = screen.getByTestId('matches-played-Charlie');
+    expect(charlieMatchesElement.innerHTML).toBe('3');
 
-    expect(logger.log.mock.calls.length).toBe(1);
-    expect(logger.log.mock.calls[0]).toEqual(['user', newUser, user]);
+    const deltaPointsElement = screen.getByTestId('points-Delta');
+    expect(deltaPointsElement.innerHTML).toBe('0');
+    const deltaMatchesElement = screen.getByTestId('matches-played-Delta');
+    expect(deltaMatchesElement.innerHTML).toBe('2');
 
+    const echoPointsElement = screen.getByTestId('points-Echo');
+    expect(echoPointsElement.innerHTML).toBe('0');
+    const echoMatchesElement = screen.getByTestId('matches-played-Echo');
+    expect(echoMatchesElement.innerHTML).toBe('3');
+
+    const foxtrotPointsElement = screen.getByTestId('points-Foxtrot');
+    expect(foxtrotPointsElement.innerHTML).toBe('6');
+    const foxtrotMatchesElement = screen.getByTestId('matches-played-Foxtrot');
+    expect(foxtrotMatchesElement.innerHTML).toBe('2');
   });
   
-});
-
-describe("Test #2", () => {
-  beforeEach(() => jest.clearAllMocks());
-
-  test("should log changed state", async () => {
-
-    const user = {
-      firstName: "John",
-      lastName: "Stacker",
-      address: {
-        street: "77339 Konopelski Crossing",
-        suburb: "North Marylee",
-        city: "New York",
-        postCode: "10002",
-      },
-      phoneNumber: "01-767291s93",
-    };
-
-    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
-
-    userEvent.click(screen.getByTestId('toggle-checkbox'));
-
-    expect(logger.log.mock.calls.length).toBe(1);
-    expect(logger.log.mock.calls[0]).toEqual(['showDetails', true, false]);
-
-  });
-  
-});
-
-describe("Test #3", () => {
-  beforeEach(() => jest.clearAllMocks());
-
-
-  test("should when prop which was previously present but now removed", async () => {
-
-    const user = {
-      firstName: "John",
-      lastName: "Stacker",
-      address: {
-        street: "77339 Konopelski Crossing",
-        suburb: "North Marylee",
-        city: "New York",
-        postCode: "10002",
-      },
-      phoneNumber: "01-767291s93",
-    };
-
-    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
-
-    rerender(<UserProfile user={user} />);
-
-    expect(logger.log.mock.calls.length).toBe(1);
-    expect(logger.log.mock.calls[0]).toEqual(['encryptPhoneNumber', undefined, true]);
-
-  });
-  
-});
-
-describe("Test #4", () => {
-  beforeEach(() => jest.clearAllMocks());
-
-  test("should not log for a prop which mutated and changed", async () => {
-
-    const user = {
-      firstName: "John",
-      lastName: "Stacker",
-      address: {
-        street: "77339 Konopelski Crossing",
-        suburb: "North Marylee",
-        city: "New York",
-        postCode: "10002",
-      },
-      phoneNumber: "01-767291s93",
-    };
-
-    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber/>);
-
-    userEvent.click(screen.getByTestId('toggle-checkbox'));
-
-    user.address = {
-      street: "77300 Cape Street",
-      suburb: "South Marylee",
-      city: "New York",
-      postCode: "10002",
-    };
-
-    rerender(<UserProfile user={user} encryptPhoneNumber />);
-
-    expect(logger.log.mock.calls.length).toBe(1);
-    expect(logger.log.mock.calls[0]).toEqual(['showDetails', true, false]);
-
-  });
-  
-});
-
-describe("Test #5", () => {
-  beforeEach(() => jest.clearAllMocks());
-
-  test("should log prop which is unused in the component but passed", async () => {
-
-    const user = {
-      firstName: "John",
-      lastName: "Stacker",
-      address: {
-        street: "77339 Konopelski Crossing",
-        suburb: "North Marylee",
-        city: "New York",
-        postCode: "10002",
-      },
-      phoneNumber: "01-767291s93",
-    };
-
-    const { rerender } = render(<UserProfile user={user} encryptPhoneNumber />);
-
-    rerender(<UserProfile user={user} encryptPhoneNumber encryptAddress />);
-
-    expect(logger.log.mock.calls.length).toBe(1);
-    expect(logger.log.mock.calls[0]).toEqual(['encryptAddress', true, undefined]);
-
-  });
 });

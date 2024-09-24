@@ -1,24 +1,18 @@
 import "./styles.css";
-import { UserProfile } from "./UserProfile";
-import React from 'react';
+import { PointsTally } from "./PointsTally";
 
-const user = {
-  firstName: "John",
-  lastName: "Stacker",
-  address: {
-    street: "77339 Konopelski Crossing",
-    suburb: "North Marylee",
-    city: "New York",
-    postCode: "10002",
-  },
-  phoneNumber: "01-76729193",
-};
+import { TEAMS } from './__mocks__/teams';
+import { MATCH_RESULTS } from './__mocks__/matchResults';
+import { FIXTURES } from "./__mocks__/fixtures";
+import { POINTS_SYSTEM } from './__mocks__/pointsSystem';
+
+import React from 'react';
 
 //do not change anything in App Component. 
 export default function App() {
   return (
     <div className="App">
-      <UserProfile user={user} encryptPhoneNumber={true}/>
+      <PointsTally teams={TEAMS} matchResults={MATCH_RESULTS} fixtures={FIXTURES} pointsSystem={POINTS_SYSTEM} />
     </div>
   );
 }
